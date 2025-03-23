@@ -1,0 +1,240 @@
+# The script of the game goes in this file.
+
+define nos = Character("Nosramus")
+define who = Character("???")
+define yn = Character("Player")
+define narrator = Character(what_italic=True)
+define dev = Character(what_bold=True)
+
+transform increase_size:
+    zoom 1.15
+    xalign 0.5
+    yalign 1.0
+
+label aff_up:
+    $ nos_aff  = nos_aff+1
+    return
+label aff_down:
+    $ nos_aff  = nos_aff-1
+    return
+screen Aff:
+    text "Affection: [nos_aff]" xpos 0.1 ypos 0.1
+
+# $ looked_at = 0
+$ looked_at = list("000000")
+
+
+# The game starts here.
+
+label start:
+
+    $ nos_aff = 0
+    show screen Aff
+
+    define look_flag = False # Ensures that "Nosramus is right/You are deep underground" text does not play twice
+    define met_flag = False # Ensures that text only acknowledges Nosramus' name after they have actually met
+
+    scene bg room
+
+    # bg should be black here
+
+    narrator "You're not sure what's just happened."
+    narrator "You're awake, you think, but your eyelids feel too heavy to open."
+    narrator "Most of all, you're hot, so hot."
+
+    narrator "Suddenly, you feel cool skin against yours. Someone, or something, is pressing their hand against your forehead."
+    who "Hm, still feverish..."
+    narrator "The voice is soft and low."
+
+    menu eyesM:
+
+        "Open your eyes.":
+
+            jump openeyes
+
+        "Pretend to rest.":
+
+            dev "Dev Note: This choice is not fully implemented, so the following text boxes will not entirely make sense."
+
+            jump choice2
+
+label openeyes:
+
+    narrator "You blink open your eyes."
+    narrator "Someone is standing over you."
+
+    show nos fullbody at increase_size
+
+    narrator "They have long, white-blond hair, so much of it that you realize some has fallen over your body.\
+        Their skin is sallow, almost grayish. Most notable are their yellow eyes, staring down at you."
+
+    nos "Ah, you're awake."
+
+    menu introM:
+
+        "Say: \"What's going on?\"":
+
+            nos "I found you passed out in the Mines. You were such a dear when we first met, I couldn't just leave you there. So I\
+            brought you to my lab and have been taking care of you. You've got a dreadful fever, poor thing."
+            narrator "When you first met..?"
+            narrator "Your mind is jogged, ever so slightly... Yes, you remember now. Nosramus briefly introduced themself to you, then\
+            hurried off, saying that they'd left a kettle on."
+            narrator "With their otherworldly visage and strangely calm demeanor, standing there shrouded in the dark, you would have\
+            thought they'd been a ghost, were it not for the fact that you were lying here talking to them now."
+
+            $ met_flag = True
+
+            jump introduced
+
+        "Say: \"Who are you?\"":
+
+            nos "Aha, you don't remember me?"
+            narrator "They laugh, but it's not as if they're mocking you - it's more like they're endeared."
+            nos "I suppose I can't fault you. You must have seen so much in this place since then."
+            nos "Well, no matter. I am Nosramus, an alchemist living down in these depths."
+            narrator "Your mind is jogged, ever so slightly... Yes, you remember now. Nosramus briefly introduced themself to you, then\
+            hurried off, saying that they'd left a kettle on."
+            narrator "With their otherworldly visage and strangely calm demeanor, standing there shrouded in the dark, you would have\
+            thought they'd been a ghost, were it not for the fact that you were lying here talking to them now."
+
+            $ met_flag = True
+    
+            jump introduced
+
+        "Say nothing.":
+
+            dev "This choice is not yet implemented! Come back later, or ask the dev if this is unexpected behavior."
+
+            # "Not much for talking, are we? Well, I'll leave you be." <- maybe smthn like that
+
+            jump introM
+
+label introduced:
+
+    nos "I was just about to get you a cool cloth for your forehead, we've got to get your temperature down."
+    nos "I don't want to smother you, but I'd caution you against getting up. You seem very weak right now."
+
+    hide nos default
+
+    narrator "You hear footsteps walking away from you, out of the room."
+
+    jump choice2
+
+label choice2:
+
+    dev "choice2!"
+    dev "text %(looked_at)s text"
+
+    if looked_at == list("XXXXXX"):
+        jump walkedin
+
+    menu choice2M:
+
+        "Get out of bed.":
+
+            dev "This choice is not yet implemented! Come back later, or ask the dev if this is unexpected behavior."
+                
+            jump choice2M
+
+        "Stay in bed.":
+
+            if nos_aff == 0:
+                call aff_up
+
+            if look_flag: # triggers the second+ time that the player sees this menu
+                jump lookM
+
+            if met_flag:
+                narrator "Nosramus is right. You do feel weak. All you can manage to do is sit up and get more of a look at your surroundings."
+                narrator "You are indeed deep underground, clearly, as the \"ceiling\" looks identical to the cavern roof of the Mines."
+                narrator "You notice..."
+            else:
+                narrator "You feel weak. All you can manage to do is sit up and get more of a look at your surroundings."
+                narrator "You are deep underground, clearly, as the \"ceiling\" looks identical to the cavern roof of the Mines."
+                narrator "You notice..."
+    
+            $ look_flag = True
+
+            jump lookM
+
+    menu lookM:
+
+        "Your bed.":
+
+            $ looked_at[0] = 'X'
+
+            narrator "You're laying on a soft mattress. It's nicer than the one in your own home, really. There's a light blanket atop\
+                you and a pillow beneath your head."
+            if met_flag:
+                narrator "On the floor beside the mattress is a mess of other blankets and pillows. You wonder if Nosramus took them off to\
+                    keep you from overheating."
+            else:
+                narrator "On the floor beside the mattress is a mess of other blankets and pillows."
+
+            jump lookM
+
+        "Table":
+
+            $ looked_at[1] = 'X'
+
+            narrator "There's a simple wooden desk in front of you. Atop it is an extinguished candle, a stack of books, and what looks\
+                to be a journal. It's rather quaint."
+
+            jump lookM
+
+        "Bookshelves.":
+
+            $ looked_at[2] = 'X'
+
+            narrator "Behind you, the back wall of the room is taken up by two tall bookshelves. The shelves are overflowing with\
+                books, so much so that some have been piled on the floor nearby."
+            narrator "You recognize the spines on some of them, reminiscent of tomes that you picked up yourself in this dungeon's upper\
+                floors. But some of them are written in languages you don't even recognize. Some look so old that they're practically\
+                falling apart."
+
+            jump lookM
+
+        "Chair.":
+
+            $ looked_at[3] = 'X'
+
+            narrator "Beside the bookshelves is a rather nice looking cushioned chair. There's a book on a podium and a candelabra\
+                beside it, shaping it into a cozy reading nook."
+
+            jump lookM
+
+        "Stone table.":
+
+            $ looked_at[4] = 'X'
+
+            narrator "In the corner of the room - as much as a circular room like this can have corners - is an ornately carved stone\
+                table."
+            if met_flag:
+                narrator "You recognize it as the Hexen Table you stumbled upon on the dungeon's first floor. From what you could discern,\
+                    it's quite a powerful magical tool. What's one doing in this \"Nosramus\" person's dwelling?"
+            else:
+                narrator "You recognize it as the Hexen Table you stumbled upon on the dungeon's first floor. From what you could discern,\
+                    it's quite a powerful magical tool. What's one doing here?"
+
+            jump lookM
+
+        "Doorway.":
+
+            $ looked_at[5] = 'X'
+
+            narrator "The stone entryway is detailed with ornate pillars. Looking through it, you can see another room, and beyond that\
+                you can just barely see out into the dark of the Mines."
+            narrator "You feel uneasy, seeing what lies outside these rooms."
+
+            jump lookM
+
+        "Stop looking around.":
+
+            narrator "You decide that's enough of that."
+
+            jump choice2
+
+label walkedin:
+    dev "yippee!"
+
+return
