@@ -1,0 +1,142 @@
+label LABEL_lookM:
+    if looked_at == list("XXXXXX"):
+        jump walkedin
+    else:
+        jump lookM
+
+menu lookM: # If the player is in bed
+
+    "Your bed.":
+        $ looked_at[0] = 'X'
+
+        narrator "You're laying on a soft mattress. It's nicer than the one in your own home, really. There's a light blanket atop\
+                you and a pillow beneath your head."
+        if met_flag:
+            narrator "On the floor beside the mattress is a mess of other blankets and pillows. You wonder if Nosramus took them off to\
+                keep you from overheating."
+        else:
+            narrator "On the floor beside the mattress is a mess of other blankets and pillows."
+
+        jump LABEL_lookM
+
+    "Table":
+        $ looked_at[1] = 'X'
+
+        narrator "There's a simple wooden desk in front of you. Atop it is an extinguished candle, a stack of books, and what looks\
+            to be a journal. It's rather quaint."
+
+        jump LABEL_lookM
+
+    "Bookshelves.":
+        $ looked_at[2] = 'X'
+
+        narrator "Behind you, the back wall of the room is taken up by two tall bookshelves. The shelves are overflowing with\
+            books, so much so that some have been piled on the floor nearby."
+        narrator "You recognize the spines on some of them, reminiscent of tomes that you picked up yourself in this dungeon's upper\
+            floors. But some of them are written in languages you don't even recognize. Some look so old that they're practically\
+            falling apart."
+
+        jump LABEL_lookM
+
+    "Chair.":
+        $ looked_at[3] = 'X'
+
+        narrator "Beside the bookshelves is a rather nice looking cushioned chair. There's a book on a podium and a candelabra\
+            beside it, shaping it into a cozy reading nook."
+
+        jump LABEL_lookM
+
+    "Stone table.":
+        $ looked_at[4] = 'X'
+
+        narrator "In the corner of the room - as much as a circular room like this can have corners - is an ornately carved stone\
+            table."
+        if met_flag:
+            narrator "You recognize it as the Hexen Table you stumbled upon on the dungeon's first floor. From what you could discern,\
+                it's quite a powerful magical tool. What's one doing in this \"Nosramus\" person's dwelling?"
+        else:
+            narrator "You recognize it as the Hexen Table you stumbled upon on the dungeon's first floor. From what you could discern,\
+                it's quite a powerful magical tool. What's one doing here?"
+
+        jump LABEL_lookM
+
+    "The Doorway.":
+        $ looked_at[5] = 'X'
+
+        narrator "The stone entryway is detailed with ornate pillars. Looking through it, you can see another room, and beyond that\
+            you can just barely see out into the dark of the Mines."
+        narrator "You feel uneasy, seeing what lies outside these rooms."
+
+        jump LABEL_lookM
+
+label LABEL_lookM2:
+    if looked_at == list("XXXXXX"):
+        jump walkedin
+    else:
+        jump lookM2
+
+menu lookM2: # If the player is in bed
+
+    "Your bed.":
+        $ looked_at[0] = 'X'
+
+        narrator "The bed you woke up on has a soft mattress. It's nicer than the one in your own home, really. Atop it is a light\
+                blanket and a pillow."
+        if met_flag:
+            narrator "On the floor beside the mattress is a mess of other blankets and pillows. You wonder if Nosramus took them off to\
+                keep you from overheating."
+        else:
+            narrator "On the floor beside the mattress is a mess of other blankets and pillows."
+
+        jump LABEL_lookM2
+
+    "Table":
+        $ looked_at[1] = 'X'
+
+        narrator "There's a simple wooden desk in front of you. Atop it is an extinguished candle, a stack of books, and what looks\
+            to be a journal. It's rather quaint."
+
+        jump LABEL_lookM2
+
+    "Bookshelves.":
+        $ looked_at[2] = 'X'
+
+        narrator "Behind you, the back wall of the room is taken up by two tall bookshelves. The shelves are overflowing with\
+            books, so much so that some have been piled on the floor nearby."
+        narrator "You run your finger across the spines. You recognize some of them, reminiscent of tomes that you picked up yourself
+            in this dungeon's upper floors. But some of them are written in languages you don't even recognize. Some look so old that
+            they're practically falling apart."
+        narrator "Your flick paper flakes off your fingers as you withdraw your hand."
+
+        jump LABEL_lookM2
+
+    "Chair.":
+        $ looked_at[3] = 'X'
+
+        narrator "Beside the bookshelves is a rather nice looking cushioned chair. There's a book on a podium and a candelabra\
+            beside it, shaping it into a cozy reading nook."
+
+        jump LABEL_lookM2
+
+    "Stone table.":
+        $ looked_at[4] = 'X'
+
+        narrator "In the corner of the room - as much as a circular room like this can have corners - is an ornately carved stone\
+            table."
+        if met_flag:
+            narrator "You recognize it as the Hexen Table you stumbled upon on the dungeon's first floor. From what you could discern,\
+                it's quite a powerful magical tool. What's one doing in this \"Nosramus\" person's dwelling?"
+        else:
+            narrator "You recognize it as the Hexen Table you stumbled upon on the dungeon's first floor. From what you could discern,\
+                it's quite a powerful magical tool. What's one doing here?"
+
+        jump LABEL_lookM2
+
+    "The Doorway.":
+        $ looked_at[5] = 'X'
+
+        narrator "The stone entryway is detailed with ornate pillars. Looking through it, you can see another room, and beyond that\
+            you can just barely see out into the dark of the Mines."
+        narrator "You feel uneasy, seeing what lies outside these rooms."
+
+        jump LABEL_lookM2
